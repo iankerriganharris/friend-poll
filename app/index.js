@@ -1,5 +1,6 @@
 
 const express = require('express');
+const helmet = require('helmet')
 const passport = require('passport');
 const session = require('express-session');
 const morgan = require('morgan');
@@ -9,7 +10,7 @@ const bodyParser = require('body-parser');
 const app = express();
 
 // App settings.
-require('./config/passport')(passport);
+app.use(helmet())
 app.use(morgan('dev')); // Logging.
 app.use(cookieParser('goodnight'));
 app.use(bodyParser.urlencoded({
@@ -24,6 +25,7 @@ app.use(session({
       httpOnly: true,
   },
 }));
+require('./config/passport')(passport)
 app.use(passport.initialize());
 app.use(passport.session());
 
