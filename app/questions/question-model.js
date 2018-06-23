@@ -7,10 +7,10 @@ const db = require('../db')
  * @param {*} success response
  */
 
-const create = async (callback) => {
+const create = async (description, callback) => {
   const statement = {
     text: 'INSERT INTO question(description) VALUES($1) RETURNING description;',
-    values: [req.body.description]
+    values: [description]
   };
   try {
     const result = await db.query(statement)

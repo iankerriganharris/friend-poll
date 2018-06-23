@@ -1,62 +1,17 @@
-const bcrypt = require('bcrypt-nodejs');
+const account = require('../accounts/account-model')
 const LocalStrategy = require('passport-local').Strategy;
-
-const db = require('../db')
-
-const userExists = async (username) => {
-  console.log('finding user')
-  const query = {
-    text: 'SELECT id FROM account WHERE screen_name = $1;',
-    values: [username]
-  }
-  const result = await db.query(query);
-  return result.rowCount === 1;
-}
-
-const checkPassword = async (username, passphrase) => {
-  console.log('checking passphrase')
-  const query = {
-    text: 'SELECT id, passphrase FROM account WHERE screen_name = $1;',
-    values: [username]
-  }
-  const result = await db.query(query);
-  if ( bcrypt.compareSync(passphrase, result.rows[0].passphrase) ) {
-    return result.rows[0];
-  } else {
-    return false
-  }
-}
-
-const insertUser = async (username, passphrase) => {
-  const salt = bcrypt.genSaltSync(10);
-  const query = {
-    text: 'INSERT INTO account(screen_name, passphrase) VALUES($1,$2) RETURNING id;',
-    values: [username, bcrypt.hashSync(passphrase, salt, null)]
-  };
-  try {
-    const result = await db.query(query);
-    return result.rows[0];
-  } catch(err) {
-    console.log(err.stack)
-    return false
-  }
-}
 
 module.exports = (passport) => {
   // Session setup.
   // Serialize user.
-  passport.serializeUser(function(user, done) {
+  passport.serializeUser( (user, done) => {
     done(null, user.id);
   });
   // Deserialize user.
-  passport.deserializeUser(function(id, done) {
-    const query = {
-      text: 'SELECT * FROM account WHERE id = $1;',
-      values: [id]
-    }
-    db.query(query)
-      .then( res => done(null, res.rows[0]) )
-      .catch( err => done(err, false) )
+  passport.deserializeUser(async (id, done) => {
+    await account.findOneById(id, (error, account) => {
+      return error ? done(error, false) : done(null, account)
+    })
   });
 
   // Local signup
@@ -67,8 +22,8 @@ module.exports = (passport) => {
       passReqToCallback: true,
     },
     async (req, username, passphrase, done) => {
-      if(! await userExists(username)) {
-        const user_created = await insertUser(username, passphrase);
+      if(! await account.exists(username)) {
+        const user_created = await account.create(username, passphrase);
         if (user_created) {
           return done(null, user_created);
         } else {
@@ -89,8 +44,8 @@ module.exports = (passport) => {
       passReqToCallback: true,
     },
     async (req, username, passphrase, done) => {
-      u = await userExists(username);
-      p = await checkPassword(username, passphrase);
+      u = await account.exists(username);
+      p = await account.checkPassword(username, passphrase);
       return done(null, p);
     }
   ));
