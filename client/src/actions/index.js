@@ -36,7 +36,7 @@ export const login = userData => {
       method: 'POST',
       data: JSON.stringify(userData),
     }
-    const response  = await axios('/login', payload);
+    const response  = await axios('/api/login', payload);
     if (response.status >= 200 && response.status < 300) {
       dispatch(loginSuccess(response));
     } else {
@@ -60,7 +60,7 @@ export const logoutError = error => ({ type: LOGOUT_FAILURE, error });
 
 export const logout = () => {
   return async dispatch => {
-    const response = await axios('/logout', { credentials: 'include' });
+    const response = await axios('/api/logout', { credentials: 'include' });
     if (response.status >= 200 && response.status < 300) {
       dispatch(logoutSuccess(response));
     } else {
@@ -92,7 +92,7 @@ export const register = userData => {
       method: 'POST',
       data: JSON.stringify(userData),
     }
-    const response = await axios('/register', payload);
+    const response = await axios('/api/register', payload);
     if (response.status >= 200 && response.status < 300) {
       dispatch(registrationSuccess(response));
     } else {
@@ -156,7 +156,7 @@ export const createQuestion = questionData => {
       method: 'POST',
       data: JSON.stringify(questionData),
     }
-    const response = await axios('/question', request);
+    const response = await axios('/api/question', request);
     if (response.status >= 200 && response.status < 300) {
       console.log(response.data.question_id);
       dispatch(createQuestionSuccess(Array.from(response.data.question_id.description)));

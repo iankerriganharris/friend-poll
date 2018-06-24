@@ -7,8 +7,8 @@ import { CREATE_QUESTION_SUCCESS, CREATE_QUESTION_ERROR } from "../constants/que
 const initialState = () => {
   return {
     user: {
-      id: localStorage.userId,
-      isAuthenticated: localStorage.isAuthenticated,
+      id: null,
+      isAuthenticated: false,
       questions: [],
       },
     feedData: [],

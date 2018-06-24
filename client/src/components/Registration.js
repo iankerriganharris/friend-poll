@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import store from '../store/index';
+import store from '../store/configureStore';
 import { register } from '../actions/index';
 import { callApi } from '../util';
 import { Form, Icon, Input, Button } from 'antd';

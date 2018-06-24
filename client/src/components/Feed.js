@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { List, message, Avatar, Spin } from 'antd';
 import { connect } from 'react-redux';
-import store from '../store/index';
+import store from '../store/configureStore';
 import { loadFeed } from '../actions/index';
 
 import WindowScroller from 'react-virtualized/dist/commonjs/WindowScroller';

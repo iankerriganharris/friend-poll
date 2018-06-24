@@ -1,5 +1,5 @@
 import axios from 'axios';
-import store from './store/index';
+import store from './store/configureStore';
 
 export const callApi = async (resource, data=null) => {
   const response = await axios(resource, data)
