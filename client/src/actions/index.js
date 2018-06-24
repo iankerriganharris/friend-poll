@@ -1,5 +1,5 @@
 // src/actions/index.js
-import React, { Component } from 'react';
+import React from 'react';
 import { 
           LOGIN_SUCCESS, LOGIN_FAILURE, 
           LOGOUT_SUCCESS, LOGOUT_FAILURE,
@@ -17,8 +17,6 @@ import { Redirect } from 'react-router-dom';
 export const loginSuccess = response => {
   return dispatch => {
     dispatch({ type: LOGIN_SUCCESS, payload: response.data.user });
-    localStorage.setItem('userId', response.data.user.id);
-    localStorage.setItem('isAuthenticated', true);
     <Redirect to='/profile' />
   }
 }
@@ -146,7 +144,8 @@ export const createQuestionSuccess = response => {
 
 export const createQuestionError = error => ({ type: CREATE_QUESTION_ERROR, error });
 
-export const createQuestion = questionData => {
+export const createQuestion = (description, idAccount) => {
+  const questionData = { ...description, idAccount: idAccount }
   return async dispatch => {
     const request = {
       headers: {
@@ -156,7 +155,7 @@ export const createQuestion = questionData => {
       method: 'POST',
       data: JSON.stringify(questionData),
     }
-    const response = await axios('/api/question', request);
+    const response = await axios('/api/questions', request);
     if (response.status >= 200 && response.status < 300) {
       console.log(response.data.question_id);
       dispatch(createQuestionSuccess(Array.from(response.data.question_id.description)));

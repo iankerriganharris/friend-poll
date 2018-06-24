@@ -1,17 +1,14 @@
 import React from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Home from './Home.js';
 import Profile from './Profile.js';
 import Discover from './Discover.js';
 import Logout from './Logout.js';
 import WrappedHorizontalLoginForm from './HorizontalLoginForm';
 import WrappedRegistrationForm from './Registration';
 import EnsureLoggedInContainer from './EnsureLoggedInContainer';
-import EnsureLoggedOutContainer from './EnsureLoggedOutContainer';
 import PrivateHeader from './PrivateHeader';
 import PublicHeader from './PublicHeader';
-import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 import DecisionRoute from './DecisionRoute';
 import CreateQuestion from './CreateQuestion';

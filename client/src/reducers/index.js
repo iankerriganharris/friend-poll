@@ -1,6 +1,6 @@
 import { LOGIN_SUCCESS, LOGOUT_SUCCESS, REGISTRATION_SUCCESS } from "../constants/auth-types";
 import { LOAD_FEED_SUCCESS } from "../constants/feed-types";
-import { CREATE_QUESTION_SUCCESS, CREATE_QUESTION_ERROR } from "../constants/question-types";
+import { CREATE_QUESTION_SUCCESS } from "../constants/question-types";
 
 // src/reducers/index.js
 

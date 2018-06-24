@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { List, message, Avatar, Spin } from 'antd';
 import { connect } from 'react-redux';
-import store from '../store/configureStore';
 import { loadFeed } from '../actions/index';
 
 import WindowScroller from 'react-virtualized/dist/commonjs/WindowScroller';
@@ -24,7 +23,6 @@ class Feed extends React.Component {
     this.props.dispatch(loadFeed(fakeDataUrl));
   }
   handleInfiniteOnLoad = ({ startIndex, stopIndex }) => {
-    let data = this.props.feedData;
     this.setState({
       loading: true,
     });
@@ -58,7 +56,6 @@ class Feed extends React.Component {
     );
   }
   render() {
-    const { data } = this.props.feedData;
     const vlist = ({ height, isScrolling, onChildScroll, scrollTop, onRowsRendered, width }) => (
       <VList
         autoHeight

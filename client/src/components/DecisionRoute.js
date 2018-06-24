@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Route, Redirect, withRouter } from 'react-router-dom';
+import React from 'react';
+import { Route } from 'react-router-dom';
 
 const DecisionRoute = ({ trueComponent, falseComponent, decisionFunc, ...rest }) => {
   return (

@@ -4,18 +4,17 @@ import { createQuestion } from '../actions/index';
 import { Form, Input, Button } from 'antd';
 const FormItem = Form.Item;
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     createQuestion: questionData => {dispatch(createQuestion(questionData))}
-//   };
-// };
+function mapStateToProps(state) {
+  return { idAccount: state.user.id };
+};
 
 class CreateQuestion extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-          this.props.dispatch(createQuestion(values));
+          console.log(this.props)
+          this.props.dispatch(createQuestion(values, this.props.idAccount));
         }
       }
     );
@@ -41,4 +40,4 @@ class CreateQuestion extends React.Component {
   }
 }
 
-export default connect()(Form.create()(CreateQuestion));
+export default connect(mapStateToProps)(Form.create()(CreateQuestion));

@@ -1,7 +1,5 @@
-import React, { Component } from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import React from 'react';
 import { connect } from 'react-redux';
-import store from '../store/configureStore';
 import { login } from '../actions/index';
 import { Form, Icon, Input, Button } from 'antd';
 const FormItem = Form.Item;
