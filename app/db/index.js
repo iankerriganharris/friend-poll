@@ -1,6 +1,9 @@
-const { Pool } = require('pg')
+const pg = require('pg')
 
-const pool = new Pool()
+pg.types.setTypeParser(20, 'text', parseInt)
+
+const pool = new pg.Pool()
+
 
 module.exports = {
   query: (text, params, callback) => {

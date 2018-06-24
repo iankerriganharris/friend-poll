@@ -5,7 +5,6 @@ const router = new Router()
 
 module.exports = (passport) => {
   const doLogin = (req, res) => {
-    log.debug('debug')
     req.session.save(() => {
       res.status(200).json({
         success: true,
@@ -42,7 +41,6 @@ module.exports = (passport) => {
   router.post('/register', passport.authenticate('local-signup'), createAccount)
 
   router.get('/logout', doLogout)
-
 
   return router
 }

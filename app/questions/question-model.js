@@ -7,18 +7,18 @@ const db = require('../db')
  * @param {*} success response
  */
 
-const create = async (description, callback) => {
+const create = async (description, idAccount, callback) => {
+  console.log(idAccount)
   const statement = {
-    text: 'INSERT INTO question(description) VALUES($1) RETURNING description;',
-    values: [description]
+    text: 'INSERT INTO question(description, id_account) VALUES($1, $2) RETURNING id;',
+    values: [description, idAccount]
   };
   try {
     const result = await db.query(statement)
     console.log(result)
-    const question_id = result.rows[0]
-    return callback(null, question_id)
+    const questionId = result.rows[0]
+    return callback(null, questionId)
   } catch(error) {
-    console.log(error.stack)
     return callback(error, null)
   }
 }
@@ -39,7 +39,13 @@ const findAll = async (callback) => {
   } catch(error) {
     return callback(error, null)
   }
-  
+}
+
+const findByUser = async (screen_name, callback) => {
+  const statement = {
+    text: 'SELECT description FROM question WHERE id_account = $1',
+    values: [username]
+  }
 }
 
 exports.create = create

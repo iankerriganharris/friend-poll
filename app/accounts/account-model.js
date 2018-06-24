@@ -39,8 +39,6 @@ const findOneById = async (id, callback) => {
   } catch(error) {
     return callback(error, null)
   }
-
-
 }
 
 const checkPassword = async (username, passphrase) => {
