@@ -1,9 +1,11 @@
 const Router = require('express-promise-router')
+var log = require('../config/logger.js')
 
 const router = new Router()
 
 module.exports = (passport) => {
   const doLogin = (req, res) => {
+    log.debug('debug')
     req.session.save(() => {
       res.status(200).json({
         success: true,

@@ -3,7 +3,6 @@ const express = require('express');
 const helmet = require('helmet')
 const passport = require('passport');
 const session = require('express-session');
-const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
@@ -11,7 +10,6 @@ const app = express();
 
 // App settings.
 app.use(helmet())
-app.use(morgan('dev')); // Logging.
 app.use(cookieParser('goodnight'));
 app.use(bodyParser.urlencoded({
   extended: true,
