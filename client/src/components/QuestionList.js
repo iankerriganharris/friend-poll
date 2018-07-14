@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { List } from 'antd';
 
 function mapStateToProps(state) {
-  return { questions: state.user.questions };
+  console.log(state.questions)
+  return { questions: state.questions };
 };
 
 const QuestionList = (props) => {

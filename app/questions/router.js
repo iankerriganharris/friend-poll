@@ -3,8 +3,9 @@ const Router = require('express-promise-router')
 const router = new Router()
 
 const createQuestion = async (req, res) => {
-  await question.create(req.body.description, req.body.idAccount, (error, questionId) => {
-    return error ? res.sendStatus(503) : res.json(questionId)
+  await question.create(req.body.description, req.body.idAccount, (error, questionObject) => {
+    console.log(questionObject)
+    return error ? res.sendStatus(503) : res.json(questionObject)
   })
 }
 

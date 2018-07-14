@@ -9,16 +9,16 @@ const initialState = () => {
     user: {
       id: null,
       isAuthenticated: false,
-      questions: [],
       },
     feedData: [],
+    questions: [],
     }
 };
 
 const rootReducer = ( state = initialState(), action ) => {
   switch ( action.type ) {
     case LOGIN_SUCCESS:
-      return { ...state, user: action.payload };
+      return { ...state, user: {...state.user, ...action.payload} };
     case LOGOUT_SUCCESS:
       return { ...state, 
         user: {
@@ -34,9 +34,8 @@ const rootReducer = ( state = initialState(), action ) => {
       // Using concat:
       // return {...state, feedData: state.feedData.concat(action.payload)}
     case CREATE_QUESTION_SUCCESS:
-      console.log('question created')
-      console.log(...action.payload)
-      return { ...state, user: { ...state.user, questions: [...state.user.questions, ...action.payload]} };
+      console.log(action.payload)
+      return { ...state, questions: [...state.questions, action.payload] };
     default:
       return state;
   }

@@ -20,7 +20,7 @@ class Feed extends React.Component {
   }
   loadedRowsMap = {}
   componentDidMount() {
-    this.props.dispatch(loadFeed(fakeDataUrl));
+    !!this.props.feedData ? null : this.props.dispatch(loadFeed(fakeDataUrl))
   }
   handleInfiniteOnLoad = ({ startIndex, stopIndex }) => {
     this.setState({

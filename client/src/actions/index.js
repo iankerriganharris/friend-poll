@@ -135,9 +135,9 @@ export const loadFeed = url => {
 
 // Question
 
-export const createQuestionSuccess = response => {
+export const createQuestionSuccess = newQuestionObject => {
   return dispatch => {
-    dispatch({ type: CREATE_QUESTION_SUCCESS, payload: response });
+    dispatch({ type: CREATE_QUESTION_SUCCESS, payload: newQuestionObject });
     <Redirect to='/question' />
   }
 }
@@ -157,8 +157,8 @@ export const createQuestion = (description, idAccount) => {
     }
     const response = await axios('/api/questions', request);
     if (response.status >= 200 && response.status < 300) {
-      console.log(response.data.question_id);
-      dispatch(createQuestionSuccess(Array.from(response.data.question_id.description)));
+      console.log(response.data);
+      dispatch(createQuestionSuccess(response.data));
     } else {
       const error = response.statusText;
       dispatch(createQuestionError(error));

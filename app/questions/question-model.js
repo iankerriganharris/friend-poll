@@ -10,14 +10,14 @@ const db = require('../db')
 const create = async (description, idAccount, callback) => {
   console.log(idAccount)
   const statement = {
-    text: 'INSERT INTO question(description, id_account) VALUES($1, $2) RETURNING id;',
+    text: 'INSERT INTO question(description, id_account) VALUES($1, $2) RETURNING id, id_account, description;',
     values: [description, idAccount]
   };
   try {
     const result = await db.query(statement)
-    console.log(result)
-    const questionId = result.rows[0]
-    return callback(null, questionId)
+    const questionObject = result.rows[0]
+    console.log(questionObject)
+    return callback(null, questionObject)
   } catch(error) {
     return callback(error, null)
   }
