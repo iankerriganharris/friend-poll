@@ -30,5 +30,6 @@ app.use(passport.session());
 // Routes
 app.use('/api', require('./accounts/router')(passport))
 app.use('/api', require('./questions/router'))
+app.use('/api', require('./follows/router'))
 
 module.exports = app
