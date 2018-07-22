@@ -9,6 +9,12 @@ const createQuestion = async (req, res) => {
   })
 }
 
+const destroyQuestion = async (req, res) => {
+  await question.destroy(req.body.idQuestion, (error, row) => {
+    return error ? res.sendStatus(503) : res.json(req.body.idQuestion)
+  })
+}
+
 const getQuestions = async (req, res) => {
   await question.findAll((error, questions) => {
     return error ? res.sendStatus(503) : res.json(questions)
@@ -16,6 +22,7 @@ const getQuestions = async (req, res) => {
 }
 
 router.post('/questions', createQuestion)
+router.delete('/questions', destroyQuestion)
 router.get('/questions', getQuestions)
 
 module.exports = router

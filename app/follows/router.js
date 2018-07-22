@@ -9,6 +9,12 @@ const createFollow = async (req, res) => {
   })
 }
 
+const destroyFollow = async (req, res) => {
+  await follow.destroy(req.body.idAccount, req.body.idFollower, (error, row) => {
+    return error ? res.sendStatus(503) : res.json(row)
+  })
+}
+
 const getFollowers = async (req, res) => {
   await follow.findFollowersByAccount(req.query.idAccount, (error, followers) => {
     console.log(followers)
@@ -24,6 +30,7 @@ const getFollowing = async (req, res) => {
 }
 
 router.post('/follow', createFollow)
+router.delete('/follow', destroyFollow)
 router.get('/followers', getFollowers)
 router.get('/following', getFollowing)
 

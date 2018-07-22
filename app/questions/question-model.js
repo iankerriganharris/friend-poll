@@ -8,7 +8,6 @@ const db = require('../db')
  */
 
 const create = async (description, idAccount, callback) => {
-  console.log(idAccount)
   const statement = {
     text: 'INSERT INTO question(description, id_account) VALUES($1, $2) RETURNING id, id_account, description;',
     values: [description, idAccount]
@@ -16,8 +15,20 @@ const create = async (description, idAccount, callback) => {
   try {
     const result = await db.query(statement)
     const questionObject = result.rows[0]
-    console.log(questionObject)
     return callback(null, questionObject)
+  } catch(error) {
+    return callback(error, null)
+  }
+}
+
+const destroy = async (idQuestion, callback) => {
+  const statement = {
+    text: 'DELETE FROM question WHERE id = $1',
+    values: [idQuestion]
+  }
+  try {
+    const result = await db.query(statement)
+    return callback(null, result.rows[0])
   } catch(error) {
     return callback(error, null)
   }
@@ -49,4 +60,5 @@ const findByUser = async (screen_name, callback) => {
 }
 
 exports.create = create
+exports.destroy = destroy
 exports.findAll = findAll

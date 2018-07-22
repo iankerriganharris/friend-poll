@@ -49,6 +49,21 @@ const findFollowingByAccount = async (idAccount, callback) => {
   }
 }
 
+const destroy = async (idAccount, idFollower, callback) => {
+  const statement = {
+    text: `DELETE FROM follow
+            WHERE id_account = $1 AND id_follower $2`,
+    values: [idAccount, idFollower]
+  }
+  try {
+    const result = await db.query(statement)
+    return callback(null, result.rows[0])
+  } catch(error) {
+    return callback(error, null)
+  }
+}
+
 exports.create = create
+exports.destroy = destroy
 exports.findFollowersByAccount = findFollowersByAccount
 exports.findFollowingByAccount = findFollowingByAccount
