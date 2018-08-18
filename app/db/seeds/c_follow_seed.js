@@ -14,5 +14,7 @@ exports.seed = function(knex, Promise) {
     {id_account: 6, id_follower: 3},
     {id_account: 6, id_follower: 4},
     {id_account: 6, id_follower: 5},
+    {id_account: 7, id_follower: 5},
+    {id_account: 8, id_follower: 6},
   ]);
 };

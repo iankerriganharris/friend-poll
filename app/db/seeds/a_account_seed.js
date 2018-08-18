@@ -11,6 +11,8 @@ exports.seed = knex => {
     {id: 3, screen_name: 'sporty', passphrase: pw},
     {id: 4, screen_name: 'fab', passphrase: pw},
     {id: 5, screen_name: 'sneakerhead', passphrase: pw},
-    {id: 6, screen_name: 'eater', passphrase: pw}
+    {id: 6, screen_name: 'eater', passphrase: pw},
+    {id: 7, screen_name: 'sneakerless', passphrase: pw},
+    {id: 8, screen_name: 'eat_everything', passphrase: pw}
   ]);
 };
