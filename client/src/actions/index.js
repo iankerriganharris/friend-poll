@@ -10,7 +10,12 @@ import {
         } from '../constants/feed-types';
 import {
           CREATE_QUESTION_SUCCESS, CREATE_QUESTION_ERROR,
+          DESTROY_QUESTION_SUCCESS, DESTROY_QUESTION_ERROR
         } from '../constants/question-types';
+
+import {
+          DO_SEARCH_ERROR, DO_SEARCH_SUCCESS
+        } from "../constants/search-types";
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
@@ -162,6 +167,63 @@ export const createQuestion = (description, idAccount) => {
     } else {
       const error = response.statusText;
       dispatch(createQuestionError(error));
+    }
+  }
+}
+
+export const destroyQuestionSuccess = id => {
+  return dispatch => {
+    dispatch({ type: DESTROY_QUESTION_SUCCESS, payload: id });
+    <Redirect to='/question' />
+  }
+}
+
+export const destroyQuestionError = error => ({ type: DESTROY_QUESTION_ERROR, error })
+
+export const destroyQuestion = (idQuestion) => {
+  const questionData = { idQuestion: idQuestion }
+  return async dispatch => {
+    const request = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      method: 'DELETE',
+      data: JSON.stringify(questionData)
+    }
+    const response = await axios('/api/questions', request)
+    if (response.status >= 200 && response.status < 300) {
+      dispatch(destroyQuestionSuccess(response.data))
+    } else {
+      const error = response.statusText
+      dispatch(destroyQuestionError(error))
+    }
+  }
+}
+
+
+// Search
+
+export const doSearchSuccess = results => {
+  return dispatch => {
+    dispatch({type: DO_SEARCH_SUCCESS, payload: results})
+  }
+}
+
+export const doSearchError = error => ({ type: DO_SEARCH_ERROR, error })
+
+export const doSearch = (terms) => {
+  return async dispatch => {
+    const request = {
+      credentials: 'include',
+      method: 'GET'
+    }
+    const response = await axios(`/api/search?q=${terms}`, request)
+    if (response.status >= 200 && response.status < 300) {
+      dispatch(doSearchSuccess(response.data))
+    } else {
+      const error = response.statusText
+      dispatch(doSearchSuccess(error))
     }
   }
 }

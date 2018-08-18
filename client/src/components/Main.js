@@ -14,6 +14,7 @@ import DecisionRoute from './DecisionRoute';
 import CreateQuestion from './CreateQuestion';
 import QuestionList from './QuestionList';
 import Feed from './Feed';
+import GeneralSearch from "./GeneralSearch";
 
 function mapStateToProps(state) {
   return { isAuthenticated: state.user.isAuthenticated };
@@ -37,6 +38,7 @@ const Main = (props) => {
               authed={props.isAuthenticated}
             />
       <EnsureLoggedInContainer>
+        <Route path='/' component={GeneralSearch} />
         <Route exact path='/(|feed|home)' component={Feed} />
         <Route exact path='/profile' render={props =>
           <div>

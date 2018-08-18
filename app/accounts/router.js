@@ -1,12 +1,14 @@
 const Router = require('express-promise-router')
-var log = require('../config/logger.js')
+const Account = require('./Account')
+const log = require('../config/logger.js')
 
 const router = new Router()
 
 module.exports = (passport) => {
-  const doLogin = (req, res) => {
+
+  router.post('/register', passport.authenticate('local-signup'), (req, res) => {
     req.session.save(() => {
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         redirectUrl: '/',
         user: {
@@ -15,32 +17,32 @@ module.exports = (passport) => {
         },
       })
     })
-  }
+  })
 
-  const doLogout = (req, res) => {
+  router.post('/login', passport.authenticate('local-login'), (req, res) => {
+    req.session.save(() => {
+      return res.status(200).json({
+        success: true,
+        redirectUrl: '/',
+        user: {
+          id: req.user.id,
+          isAuthenticated: true,
+        },
+      })
+    })
+  })
+
+  router.get('/accounts/all', async (req, res) => {
+    const accounts = await Account.query().eager('[question, follow, follower]')
+    return res.status(200).json(accounts)
+  })
+
+  router.get('/logout', (req, res) => {
     req.logOut();
     req.session.destroy(() => {
-      res.json({'status': 200});
+      return res.json({'status': 200});
     });
-  }
-
-  const createAccount = (req, res) => {
-    req.session.save(() => {
-      res.status(200).json({
-        success: true,
-        redirectUrl: '/',
-        user: {
-          id: req.user.id,
-          isAuthenticated: true,
-        },
-      })
-    })
-  }
-
-  router.post('/login', passport.authenticate('local-login'), doLogin)
-  router.post('/register', passport.authenticate('local-signup'), createAccount)
-
-  router.get('/logout', doLogout)
+  })
 
   return router
 }
