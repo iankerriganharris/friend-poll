@@ -45,8 +45,7 @@ const rootReducer = ( state = initialState(), action ) => {
         1)
       return { ...state, questions: [...questionsCopy] }
     case DO_SEARCH_SUCCESS:
-      console.log(action.payload.hits)
-      return {...state, searchResults: [...state.searchResults, ...action.payload.hits]}
+      return {...state, searchResults: [...action.payload]}
     case DO_SEARCH_ERROR:
       console.log(action.error)
     default:
