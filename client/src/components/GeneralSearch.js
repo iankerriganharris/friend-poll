@@ -7,9 +7,13 @@ const Search = Input.Search;
 
 class GeneralSearch extends React.Component {
 
-  resetComponent = () => this.setState({value: [], data: []})
+  resetComponent = () => {
+    console.log('reset called')
+    this.setState({showResults: false})
+  }
 
   state = {
+    showResults: false,
     value: [],
     data: []
   }
@@ -25,7 +29,7 @@ class GeneralSearch extends React.Component {
         text: hit._source.screen_name,
         value: hit._source.screen_name
       }))
-      this.setState({ data: [...data]})
+      this.setState({ data: [...data], showResults: true})
     } else {
       const error = response.statusText
     }
@@ -40,23 +44,21 @@ class GeneralSearch extends React.Component {
   }
 
   render() {
-    const { value, data } = this.state
+    const { value, data, showResults } = this.state
     const dataList = data.length ? data.map(
-      hit => <Menu.Item key={hit.value}><Link to={`/${hit.value}`}>{hit.value}</Link></Menu.Item>
-    ) : <div></div>
+      hit =>
+        <Menu.Item key={hit.value}>
+          <Link onClick={() => this.resetComponent()} to={`/${hit.value}`}>{hit.value}</Link>
+        </Menu.Item>
+    ) : <Menu.Item></Menu.Item>
     const results = <Menu>{dataList}</Menu>
-    //const dataList = (<div></div>)
     return(
       <div>
         <Search
           placeholder="search..."
           onSearch={this.doSearch}
         />
-        { data.length ?
-          <Dropdown visible overlay={results}><div></div></Dropdown>
-          : <Dropdown overlay={results}><div></div></Dropdown>
-        }
-
+        <Dropdown visible={this.state.showResults} overlay={results}><div></div></Dropdown>
       </div>
     )
   }

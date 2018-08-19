@@ -8,7 +8,6 @@ const PrivateHeader = (props) => {
     <div>
       <Menu
         mode='horizontal'
-        // activeKey={props.location.pathname}
         selectedKeys={[props.location.pathname]}
       >
         <Menu.Item key='/'>
@@ -36,7 +35,7 @@ const PrivateHeader = (props) => {
             <Icon type="logout" />Logout
           </NavLink>
         </Menu.Item>
-        <Menu.Item style={{float:'right', width: '20%'}} >
+        <Menu.Item disabled style={{float:'right', width: '20%'}} >
           <GeneralSearch />
         </Menu.Item>
       </Menu>
