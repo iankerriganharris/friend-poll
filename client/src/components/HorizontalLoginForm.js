@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../actions/index';
 import { Form, Icon, Input, Button } from 'antd';
@@ -22,7 +23,7 @@ class ConnectedHorizontalLoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-          this.props.dispatch(login(values));
+        this.props.dispatch(login(values));
         }
       }
     );

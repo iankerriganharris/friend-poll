@@ -26,13 +26,14 @@ module.exports = (passport) => {
         redirectUrl: '/',
         user: {
           id: req.user.id,
+          screen_name: req.user.screen_name,
           isAuthenticated: true,
         },
       })
     })
   })
 
-  router.get('/accounts/all', async (req, res) => {
+  router.get('/all', async (req, res) => {
     const accounts = await Account.query().eager('[question, follow, follower]')
     return res.status(200).json(accounts)
   })

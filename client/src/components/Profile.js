@@ -1,20 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Form, Input } from 'antd';
-const FormItem = Form.Item;
 
-const mapStateToProps = state => {
-  return { user: state.user };
-};
 
-const ConnectedProfile = ({ user }) => (
-  <Form layout='vertical'>
-    <FormItem>
-      <Input />
-    </FormItem>
-  </Form>
-);
 
-const Profile = connect(mapStateToProps)(ConnectedProfile);
+class Profile extends React.Component {
+  render() {
+    console.log('Profile ' + this.props.match)
+    return(
+      <div>{this.props.match.params.screen_name}</div>
+    )
+  }
+}
+
 
 export default Profile;

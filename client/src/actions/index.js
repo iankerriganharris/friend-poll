@@ -18,11 +18,13 @@ import {
         } from "../constants/search-types";
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import history from '../history'
 
 export const loginSuccess = response => {
   return dispatch => {
+    console.log('Redirecting...');
     dispatch({ type: LOGIN_SUCCESS, payload: response.data.user });
-    <Redirect to='/profile' />
+    history.push(`/${response.data.user.screen_name}`)
   }
 }
 
@@ -39,7 +41,7 @@ export const login = userData => {
       method: 'POST',
       data: JSON.stringify(userData),
     }
-    const response  = await axios('/api/login', payload);
+    const response  = await axios('/api/accounts/login', payload);
     if (response.status >= 200 && response.status < 300) {
       dispatch(loginSuccess(response));
     } else {
@@ -63,7 +65,7 @@ export const logoutError = error => ({ type: LOGOUT_FAILURE, error });
 
 export const logout = () => {
   return async dispatch => {
-    const response = await axios('/api/logout', { credentials: 'include' });
+    const response = await axios('/api/accounts/logout', { credentials: 'include' });
     if (response.status >= 200 && response.status < 300) {
       dispatch(logoutSuccess(response));
     } else {
@@ -78,7 +80,7 @@ export const registrationSuccess = response => {
     dispatch({ type: REGISTRATION_SUCCESS, payload: response.data.user });
     localStorage.setItem('userId', response.data.user.id);
     localStorage.setItem('isAuthenticated', true);
-    <Redirect to='/profile' />
+    <Redirect to='/' />
   }
 }
 
@@ -95,7 +97,7 @@ export const register = userData => {
       method: 'POST',
       data: JSON.stringify(userData),
     }
-    const response = await axios('/api/register', payload);
+    const response = await axios('/api/accounts/register', payload);
     if (response.status >= 200 && response.status < 300) {
       dispatch(registrationSuccess(response));
     } else {

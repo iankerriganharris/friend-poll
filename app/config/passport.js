@@ -59,10 +59,12 @@ module.exports = (passport) => {
     },
     async (req, username, passphrase, done) => {
       try {
+        console.log('logging in... ' + username)
         const checkedAccount = await Account
           .query()
-          .select('id', 'passphrase')
+          .select('id', 'screen_name', 'passphrase')
           .where('screen_name', '=', username)
+        console.log(checkedAccount)
         if ( checkedAccount.length && bcrypt.compareSync(passphrase, checkedAccount[0].passphrase )) {
           return done(null, checkedAccount[0])
         } else {
