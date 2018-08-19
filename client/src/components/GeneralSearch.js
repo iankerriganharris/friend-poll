@@ -20,7 +20,6 @@ class GeneralSearch extends React.Component {
   }
 
   handleChange = (value) => {
-    console.log(value)
     this.setState({value, data: [], loading: true},
       () => {
         setTimeout(async () => {
@@ -53,7 +52,6 @@ class GeneralSearch extends React.Component {
         </Menu.Item>
     ) : <Menu.Item>No results found.</Menu.Item>
     const results = <Menu>{dataList}</Menu>
-    console.log('show results ' + showResults)
     return(
       <div className={this.props.className}>
         <Spin size={"small"} spinning={loading}>
@@ -63,7 +61,7 @@ class GeneralSearch extends React.Component {
             onChange={(e) => this.handleChange(e.target.value)}
           />
         </Spin>
-        {showResults ?
+        {showResults && !loading ?
           <Dropdown visible overlay={results}>
             <div></div>
           </Dropdown>

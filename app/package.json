@@ -26,7 +26,8 @@
     "pg": "^7.4.3"
   },
   "devDependencies": {
-    "concurrently": "^3.6.0"
+    "concurrently": "^3.6.0",
+    "faker": "^4.1.0"
   },
   "presets": [
     "env"

@@ -12,7 +12,7 @@ module.exports = (searchClient) => {
           query: {
             multi_match: {
               query: `${req.query.q}`,
-              fields: ['screen_name', 'first_name', 'last_name']
+              fields: ['screen_name^2', 'first_name', 'last_name']
             }
           }
         }
