@@ -1,20 +1,25 @@
 
+
+
 exports.seed = function(knex, Promise) {
-  return knex('follow').insert([
-    {id_account: 1, id_follower: 2},
-    {id_account: 1, id_follower: 3},
-    {id_account: 1, id_follower: 4},
-    {id_account: 1, id_follower: 5},
-    {id_account: 2, id_follower: 1},
-    {id_account: 4, id_follower: 1},
-    {id_account: 5, id_follower: 1},
-    {id_account: 4, id_follower: 2},
-    {id_account: 4, id_follower: 3},
-    {id_account: 6, id_follower: 2},
-    {id_account: 6, id_follower: 3},
-    {id_account: 6, id_follower: 4},
-    {id_account: 6, id_follower: 5},
-    {id_account: 7, id_follower: 5},
-    {id_account: 8, id_follower: 6},
-  ]);
+  let follows = new Array()
+
+  knex('account').pluck('id').then((accountIds) => {
+    let count = 0
+    do {
+      let id_account
+      let id_follower
+      do {
+        id_account = faker.random.arrayElement(accountIds)
+        id_follower = faker.random.arrayElement(accountIds)
+      } while (id_account === id_follower)
+      const follow = {
+        id_account: id_account,
+        id_follower: id_follower
+      }
+      follows.push(follow)
+      count += 1
+    } while (count < 1000)
+  })
+  return knex('follow').insert(follows);
 };
