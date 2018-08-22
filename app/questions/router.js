@@ -1,8 +1,9 @@
 const Question = require('./Question')
+const Follow = require('../follows/Follow')
 const Router = require('express-promise-router')
 const router = new Router()
 
-router.post('/questions', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const createdQuestion = await Question
       .query()
@@ -14,7 +15,29 @@ router.post('/questions', async (req, res) => {
   }
 })
 
-router.get('/questions/show/:questionId', async (req, res) => {
+router.get('/home_timeline', async (req, res) => {
+  try {
+    console.log('GET home_timeline')
+    const followingResults = await Follow
+      .query()
+      .select('id_account')
+      .where('id_follower', '=', req.user[0].id)
+    const accountIds = followingResults.map(r => r.id_account)
+    const homeQuestions = await Question
+      .query()
+      .select('id', 'description')
+      .eager('account(accountFilter)', {
+        accountFilter: (builder) => builder.select('account.screen_name')
+      })
+      .whereIn('id_account', accountIds)
+    return res.json(homeQuestions)
+  } catch (err) {
+    console.log(err)
+    return res.sendStatus(503)
+  }
+})
+
+router.get('/show/:questionId', async (req, res) => {
   try {
     const oneQuestion = await Question
       .query()
@@ -29,7 +52,7 @@ router.get('/questions/show/:questionId', async (req, res) => {
   }
 })
 
-router.get('/questions/lookup/:questionIds', async (req, res) => {
+router.get('/lookup/:questionIds', async (req, res) => {
   const questionIdsArray = req.params.questionIds.split(',')
   try {
     const multipleQuestions = await Question

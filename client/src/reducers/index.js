@@ -31,8 +31,9 @@ const rootReducer = ( state = initialState(), action ) => {
     case REGISTRATION_SUCCESS:
       return { ...state, user: action.payload };
     case LOAD_FEED_SUCCESS:
+      return {...state, feedData: [...action.payload]}
       // Using spread operator:
-      return {...state, feedData: [...state.feedData, ...action.payload]};
+      //return {...state, feedData: [...state.feedData, ...action.payload]};
       // Using concat:
       // return {...state, feedData: state.feedData.concat(action.payload)}
     case CREATE_QUESTION_SUCCESS:

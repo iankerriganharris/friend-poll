@@ -24,7 +24,7 @@ export const loginSuccess = response => {
   return dispatch => {
     console.log('Redirecting...');
     dispatch({ type: LOGIN_SUCCESS, payload: response.data.user });
-    history.push(`/${response.data.user.screen_name}`)
+    history.push(`/`)
   }
 }
 
@@ -113,14 +113,16 @@ export const register = userData => {
 
 export const loadFeedSuccess = response => {
   return dispatch => {
-    dispatch({ type: LOAD_FEED_SUCCESS, payload: response.data.results });
+    console.log('dispatch data... ' + response.data)
+    dispatch({ type: LOAD_FEED_SUCCESS, payload: response.data });
   }
 }
 
 export const loadFeedError = error => ({ type: LOAD_FEED_ERROR, error });
 
-export const loadFeed = url => {
+export const loadFeed = () => {
   return async dispatch => {
+    console.log('Fetching feed...')
     const payload = {
       headers: {
         'Content-Type': 'application/json',
@@ -128,11 +130,12 @@ export const loadFeed = url => {
       credentials: 'include',
       method: 'GET',
     }
-    const response = await axios(url, payload);
+    const response = await axios(`/api/questions/home_timeline`, payload);
     if (response.status >= 200 && response.status < 300) {
       dispatch(loadFeedSuccess(response));
     } else {
       const error = response.statusText;
+      console.log(error)
       dispatch(loadFeedError(error));
     }
   }

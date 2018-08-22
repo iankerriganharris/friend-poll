@@ -5,11 +5,13 @@ const router = new Router()
 
 router.post('/follow', async (req, res) => {
   try {
+    console.log('Adding follow...')
     const createdFollow = await Follow
       .query()
       .insert({id_account: req.body.idAccount, id_follower: req.body.idFollower})
     return res.json(createdFollow)
   } catch (err) {
+    console.log(err)
     return res.sendStatus(503)
   }
 
@@ -48,6 +50,7 @@ router.get('/following/list/:idAccount', async (req, res) => {
 
 router.delete('/follow', async (req, res) => {
   try {
+    console.log('Deleting follow...')
     await Follow
       .query()
       .delete()
@@ -55,6 +58,7 @@ router.delete('/follow', async (req, res) => {
       .andWhere('id_follower', '=', req.body.idFollower)
     return res.sendStatus(200)
   } catch (err) {
+    console.log(err)
     return res.sendStatus(503)
   }
 })

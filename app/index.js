@@ -37,7 +37,7 @@ const app = express()
   .use(passport.session())
   // Routes
   .use('/api/accounts', require('./accounts/router')(passport))
-  .use('/api', require('./questions/router'))
+  .use('/api/questions', require('./questions/router'))
   .use('/api', require('./follows/router'))
   .use('/api/search', require('./search/router')(searchClient))
 

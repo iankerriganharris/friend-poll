@@ -64,7 +64,6 @@ module.exports = (passport) => {
           .query()
           .select('id', 'screen_name', 'passphrase')
           .where('screen_name', '=', username)
-        console.log(checkedAccount)
         if ( checkedAccount.length && bcrypt.compareSync(passphrase, checkedAccount[0].passphrase )) {
           return done(null, checkedAccount[0])
         } else {
