@@ -48,7 +48,7 @@ class Feed extends React.Component {
       <List.Item
         key={key}
         style={style}
-        //actions={[<Link>{item.number_of_replies}</Link>]}
+        actions={[<Link to={`/${item.number_of_replies}`}>{item.number_of_replies}</Link>]}
       >
         <List.Item.Meta
           avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
