@@ -24,6 +24,17 @@
   font-size: large;
 }
 
+.header-button {
+  margin-top: 4px;
+  float: right;
+  margin-right: 4px;
+}
+
+.header-search {
+  margin-top: 7px;
+  float: right;
+}
+
 .no-hover:hover {
   border-bottom: 2px solid transparent;
 }

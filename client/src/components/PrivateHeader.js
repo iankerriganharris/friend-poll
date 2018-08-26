@@ -1,52 +1,42 @@
 import React from 'react';
 import {NavLink, Route} from 'react-router-dom';
-import { Row, Col, Menu, Icon } from 'antd';
+import { Row, Col, Menu, Button, Icon } from 'antd';
 import GeneralSearch from "./GeneralSearch";
+import CreateQuestion from './CreateQuestion';
 
 const PrivateHeader = (props) => {
   return (
     <div>
       <Row type='flex' align='middle'>
-        <Col span={18}>
+        <Col span={22}>
+          <GeneralSearch className='header-search'/>
+          <CreateQuestion className='header-button'/>
           <Menu
             mode='horizontal'
             selectedKeys={[props.location.pathname]}
           >
             <Menu.Item key='/'>
               <NavLink to='/' activeClassName='selected'>
-                <Icon type="home" />Home
+                <Icon type="home"/>Home
               </NavLink>
             </Menu.Item>
             <Menu.Item key='/discover'>
               <NavLink to='/discover' activeClassName='selected'>
-                <Icon type="share-alt" />Discover
-              </NavLink>
-            </Menu.Item>
-            <Menu.Item key='/profile'>
-              <NavLink to='/profile' activeClassName='selected'>
-                <Icon type="idcard" />Profile
-              </NavLink>
-            </Menu.Item>
-            <Menu.Item key='/question'>
-              <NavLink to='/question' activeClassName='selected'>
-                <Icon type="question" />Question
+                <Icon type="share-alt"/>Discover
               </NavLink>
             </Menu.Item>
           </Menu>
-        </Col>
-        <Col span={4}>
-            <GeneralSearch className='ant-menu-horizontal' />
         </Col>
         <Col span={2}>
           <Menu
             mode='horizontal'
             selectedKeys={[props.location.pathname]}
           >
-          <Menu.Item style={{float:'right'}} key='/logout'>
-            <NavLink to='/logout' activeClassName='selected'>
-              <Icon type="logout" />Logout
-            </NavLink>
-          </Menu.Item>
+            <Menu.Item style={{float: 'right'}} key='/logout'>
+              <NavLink to='/logout' activeClassName='selected'>
+                <Icon type="logout"/>Logout
+              </NavLink>
+            </Menu.Item>
           </Menu>
           {/*<Menu.Item className="no-hover" style={{float:'right', width: '20%'}} >*/}
 

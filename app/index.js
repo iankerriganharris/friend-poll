@@ -31,6 +31,7 @@ const app = express()
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
+        maxAge: 3600000
     },
   }))
   .use(passport.initialize())
