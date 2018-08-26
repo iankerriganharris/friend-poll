@@ -1,6 +1,9 @@
 
 exports.seed = function(knex, Promise) {
-  return knex('question').del()
+  return knex('reply').del()
+    .then(function () {
+      return knex('question').del()
+    })
     .then(function () {
       return knex('follow').del()
     })

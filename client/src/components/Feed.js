@@ -45,13 +45,16 @@ class Feed extends React.Component {
   renderItem = ({ index, key, style }) => {
     const item = this.props.feedData[index];
     return (
-      <List.Item key={key} style={style}>
+      <List.Item
+        key={key}
+        style={style}
+        //actions={[<Link>{item.number_of_replies}</Link>]}
+      >
         <List.Item.Meta
           avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
           title={<Link to={`/${item.account.screen_name}`}>{item.account.screen_name}</Link>}
           description={item.description}
         />
-        <div>Content</div>
       </List.Item>
     );
   }

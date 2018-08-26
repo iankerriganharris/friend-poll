@@ -7,6 +7,7 @@ class Question extends Model {
 
   static get relationMappings() {
     const Account = require('../accounts/Account');
+    const Reply = require('../reply/Reply')
     return {
       account: {
         relation: Model.BelongsToOneRelation,
@@ -14,6 +15,14 @@ class Question extends Model {
         join: {
           from: 'question.id_account',
           to: 'account.id'
+        }
+      },
+      reply: {
+        relation: Model.HasManyRelation,
+        modelClass: Reply,
+        join: {
+          from: 'reply.id_question',
+          to: 'question.id'
         }
       }
     }

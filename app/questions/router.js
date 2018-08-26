@@ -25,11 +25,16 @@ router.get('/home_timeline', async (req, res) => {
     const accountIds = followingResults.map(r => r.id_account)
     const homeQuestions = await Question
       .query()
-      .select('id', 'description')
+      .select('id', 'description',
+        Question.relatedQuery('reply').count().as('number_of_replies')
+      )
       .eager('account(accountFilter)', {
-        accountFilter: (builder) => builder.select('account.screen_name')
+        accountFilter: (builder) => {
+          builder.select('account.screen_name')
+        }
       })
       .whereIn('id_account', accountIds)
+    console.log(homeQuestions)
     return res.json(homeQuestions)
   } catch (err) {
     console.log(err)

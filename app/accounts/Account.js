@@ -8,6 +8,7 @@ class Account extends Model {
   static get relationMappings() {
     const Question = require('../questions/Question')
     const Follow = require('../follows/Follow')
+    const Reply = require('../reply/Reply')
     return {
       question: {
         relation: Model.HasManyRelation,
@@ -39,6 +40,14 @@ class Account extends Model {
             to: 'follow.id_follower'
           },
           to: 'account.id'
+        }
+      },
+      reply: {
+        relation: Model.HasManyRelation,
+        modelClass: Reply,
+        join: {
+          from: 'account.id',
+          to: 'reply.id_account'
         }
       }
     }

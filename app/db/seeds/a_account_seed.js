@@ -18,7 +18,6 @@ do {
   accounts.push(account)
   count += 1
 } while (count < 1000)
-console.log(accounts)
 exports.seed = knex => {
   return knex('account').insert(accounts);
 };
