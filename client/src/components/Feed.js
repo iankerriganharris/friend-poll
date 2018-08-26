@@ -2,7 +2,7 @@ import React from 'react';
 import { List, message, Avatar, Spin } from 'antd';
 import { connect } from 'react-redux';
 import { loadFeed } from '../actions/index';
-
+import { Link } from 'react-router-dom';
 import WindowScroller from 'react-virtualized/dist/commonjs/WindowScroller';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import VList from 'react-virtualized/dist/commonjs/List';
@@ -20,7 +20,7 @@ class Feed extends React.Component {
   }
   loadedRowsMap = {}
   componentDidMount() {
-    !!this.props.feedData ? null : this.props.dispatch(loadFeed(fakeDataUrl))
+    !!this.props.feedData ? this.props.dispatch(loadFeed()) : null
   }
   handleInfiniteOnLoad = ({ startIndex, stopIndex }) => {
     this.setState({
@@ -30,14 +30,14 @@ class Feed extends React.Component {
       // 1 means loading
       this.loadedRowsMap[i] = 1;
     }
-    if (this.props.feedData.length > 19) {
-      message.warning('Virtualized List loaded all');
+    if (this.props.feedData.length > 2) {
+      // message.warning('Virtualized List loaded all');
       this.setState({
         loading: false,
       });
       return;
     }
-    this.props.dispatch(loadFeed(fakeDataUrl));
+    this.props.dispatch(loadFeed());
   }
   isRowLoaded = ({ index }) => {
     return !!this.loadedRowsMap[index];
@@ -48,8 +48,8 @@ class Feed extends React.Component {
       <List.Item key={key} style={style}>
         <List.Item.Meta
           avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-          title={<a href="https://ant.design">{item.name.last}</a>}
-          description={item.email}
+          title={<Link to={`/${item.account.screen_name}`}>{item.account.screen_name}</Link>}
+          description={item.description}
         />
         <div>Content</div>
       </List.Item>

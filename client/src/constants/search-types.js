@@ -1,0 +1,5 @@
+
+
+export const DO_SEARCH_SUCCESS = 'DO_SEARCH_SUCCESS'
+
+export const DO_SEARCH_ERROR = 'DO_SEARCH_ERROR'

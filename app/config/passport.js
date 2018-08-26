@@ -1,17 +1,25 @@
-const account = require('../accounts/account-model')
+const Account = require('../accounts/Account')
 const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcrypt-nodejs')
 
 module.exports = (passport) => {
+
   // Session setup.
   // Serialize user.
   passport.serializeUser( (user, done) => {
     done(null, user.id);
   });
+
   // Deserialize user.
   passport.deserializeUser(async (id, done) => {
-    await account.findOneById(id, (error, account) => {
-      return error ? done(error, false) : done(null, account)
-    })
+    try {
+      const oneAccount = await Account
+        .query()
+        .where('id', '=', id)
+      return done(null, oneAccount)
+    } catch (err) {
+      return done(err, false)
+    }
   });
 
   // Local signup
@@ -22,16 +30,22 @@ module.exports = (passport) => {
       passReqToCallback: true,
     },
     async (req, username, passphrase, done) => {
-      if(! await account.exists(username)) {
-        const user_created = await account.create(username, passphrase);
-        if (user_created) {
-          return done(null, user_created);
+      try {
+        const salt = bcrypt.genSaltSync(10);
+        const createdAccount = await Account
+          .query()
+          .returning('id')
+          .insert({
+            screen_name: username,
+            passphrase: bcrypt.hashSync(passphrase, salt, null)
+          })
+        if (createdAccount) {
+          return done(null, createdAccount)
         } else {
-          return done(null, false);
+          return done(null, false)
         }
-      } 
-      else {
-        return done(null, false);
+      } catch (err) {
+        return done(err, false)
       }
     }
   ))
@@ -44,10 +58,21 @@ module.exports = (passport) => {
       passReqToCallback: true,
     },
     async (req, username, passphrase, done) => {
-      u = await account.exists(username);
-      p = await account.checkPassword(username, passphrase);
-      return done(null, p);
+      try {
+        console.log('logging in... ' + username)
+        const checkedAccount = await Account
+          .query()
+          .select('id', 'screen_name', 'passphrase')
+          .where('screen_name', '=', username)
+        if ( checkedAccount.length && bcrypt.compareSync(passphrase, checkedAccount[0].passphrase )) {
+          return done(null, checkedAccount[0])
+        } else {
+          return done(null, false)
+        }
+      } catch (err) {
+        return done(err, null)
+      }
     }
-  ));
+  ))
 }
 

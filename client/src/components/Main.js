@@ -37,17 +37,13 @@ const Main = (props) => {
               authed={props.isAuthenticated}
             />
       <EnsureLoggedInContainer>
+        <Switch>
         <Route exact path='/(|feed|home)' component={Feed} />
-        <Route exact path='/profile' render={props =>
-          <div>
-            <Profile />
-            <QuestionList />
-          </div>
-        }
-        />
         <Route exact path='/discover' component={Discover}/>
         <Route exact path='/question' component={CreateQuestion}/>
         <Route exact path='/logout' component={Logout} />
+        <Route path='/:screen_name' component={Profile} />
+        </Switch>
       </EnsureLoggedInContainer>
     </Switch>
   </main>
